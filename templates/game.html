@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/game.css">
+    <link rel="stylesheet" href="../styles/all.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <!-- Background -->
+        <section class="background">
+        </section>
+        <!-- Section Time -->
+        <div id="time">
+            <p id="seconds">starting</p>
+        </div>
+        <!-- Players up -->
+        <section class="positions">
+            <div id="player-box" class="player">
+                
+            </div>
+        </section>
+        <!-- Player in game -->
+        <section class="pp">
+            <div class="principal_player">
+                <div class="players" id="pp_character"></div>
+            </div>
+            <!-- random letter -->
+            <div id="letter">
+
+            </div>
+        </section>
+        <!-- Input for word -->
+        <form>
+            <input type="text" name="" id="insert_word" placeholder="Instert word...">
+            <div id="answer">
+                <button id="btn-word">SEND</button>
+            </div>
+        </form>
+        <!-- Back (principal) -->
+        <a href="../index.html">
+            <button id="btn_1">BACK</button>
+        </a>
+    </main>
+    <script type="module" src="../src/script-game.js"></script>
+    <script type="module" src="../src/class_stopwatch.js"></script>
+</body>
+</html>

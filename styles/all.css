@@ -1,0 +1,52 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+:root{
+    --Background_pricipal:#101720;
+    --background_objects_1:#072084;
+    --background_objects_2:#f95b1a;
+    --background_objects_3:#ffd6c0;
+    --color_fonts:#faebd7;
+}
+::selection{
+    background-color: var(--background_objects_2) ;
+    color: #072084;
+}
+select:hover, button:hover{
+    cursor: pointer;
+}
+.player_images{
+    width: 50px;
+    height: 50px;
+    border-radius: 1000px;
+}
+.players{
+    width: 50px;
+    height: 50px;
+    border-radius: 1000px;
+}
+h3{
+    font-size: 15px;
+    color: black;
+    text-shadow: #f95b1a 0px 0px 3px;
+}
+/* Players */
+#character1{
+    background: url('../assets/images/characters/20.webp') no-repeat center center;
+    background-size: cover;
+}
+#character2{
+    background: url('../assets/images/characters/2.webp') no-repeat center center;
+    background-size: cover;
+}
+#character3{
+    background: url('../assets/images/characters/5.webp') no-repeat center center;
+    background-size: cover;
+}
+#character4{
+    background: url('../assets/images/characters/15.webp') no-repeat center center;
+    background-size: cover;
+}

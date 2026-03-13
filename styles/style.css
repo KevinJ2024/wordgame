@@ -1,0 +1,101 @@
+
+:root{
+    --Background_pricipal:#101720;
+    --background_objects_1:#072084c2;
+    --background_objects_2:#f95b1a;
+    --background_objects_3:#ffd6c0;
+    --color_fonts:#faebd7;
+}
+main{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    background: url('../assets/gif/shenk.gif') no-repeat center center;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+select{
+    padding: 12px 33px;
+    border-radius: 10px;
+    background-color: var(--background_objects_2);
+    border: solid 1px var(--background_objects_1);
+    outline: none;
+    color: var(--color_fonts);
+    font-size: 15px;
+}
+select option:nth-child(2){
+    background-color: #014545;
+}
+#forms{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+label{
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    color: var(--color_fonts);
+}
+input{
+    width: 250px;
+	height: 35px;
+	border-top: none;
+	border-left: none;
+	border-right:none;
+	background-color: var(--background_objects_1);
+	border-radius:5px 5px 0 0;
+	border-bottom: solid 3px #f95b1a;
+	color: var(--color_fonts);
+	font-weight: 600;
+	position: relative;
+	top: 10px;
+    padding: 0 0 0 10px;
+    outline: none;
+}
+input::placeholder{
+    color: rgba(143, 143, 143, 0.622);
+}
+input:focus{
+    box-shadow: inset 0 0 5px 0 var(--color_fonts);
+}
+button{
+    padding: 10px 35px;
+    border-radius: 10px;
+    background-color: var(--background_objects_3);
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+}
+img{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 80px;
+}
+#forms{
+    display: flex;
+    gap: 30px;
+}
+@media screen and (max-width:615px) {
+    section{
+        background-position: 75%  ;
+    }
+}
