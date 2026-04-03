@@ -187,8 +187,18 @@ const createPlayers = (names) => {
 	btn_word.addEventListener('click', () => game(players, names))
 }
 
+const restartStats = () => {
+    const players = new Map
+    names.forEach(name => {
+        players.set(name, 0)
+    })
+
+    localStorage.setItem('players', JSON.stringify(Array.from(players)));
+}
+
 // App init
 window.addEventListener('DOMContentLoaded', () => {
+	restartStats();
 	createPlayers(names);
 	printNames(names);
 	choiceTime();
