@@ -26,8 +26,6 @@ export class stopwatch {
             this.state = 'stop'
             document.getElementById('time').innerHTML = "Tiempo"
             
-            // Llamamos a changeTurn(), que ahora se encarga de cambiar los turnos, 
-            // imprimir las temáticas, las imágenes y reiniciar el reloj.
             changeTurn()
          }
       }, 1000)
