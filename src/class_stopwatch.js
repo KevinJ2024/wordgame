@@ -1,10 +1,4 @@
-import { getRandomLetter, images } from "./script-game.js";
-import { printLetter } from "./script-game.js";
 import { changeTurn } from "./script-game.js";
-
-let i = 1
-
-export let randomLetter = ""
 
 export class stopwatch {
    constructor(intervalTime) {
@@ -15,28 +9,26 @@ export class stopwatch {
    }
 
    play() {
-      if (this.state == 'play') return
+      if (this.state === 'play') return
       this.state = 'play'
-      document.getElementById('insert_word').value = ""
-      document.getElementById('insert_word').style.visibility = 'visible'
+      
+      const insertWord = document.getElementById('insert_word')
+      insertWord.value = ""
+      insertWord.style.visibility = 'visible'
+      
       this.interval = setInterval(() => {
          this.counter--
-         document.getElementById('time').innerHTML= this.counter
-         if (this.counter == 0) {
-            document.getElementById('insert_word').style.visibility = 'hidden'
+         document.getElementById('time').innerHTML = this.counter
+         
+         if (this.counter === 0) {
+            insertWord.style.visibility = 'hidden'
             clearInterval(this.interval)
             this.state = 'stop'
+            document.getElementById('time').innerHTML = "Tiempo"
+            
+            // Llamamos a changeTurn(), que ahora se encarga de cambiar los turnos, 
+            // imprimir las temáticas, las imágenes y reiniciar el reloj.
             changeTurn()
-            document.getElementById('time').innerHTML= "stop"
-            //generate the first random letter
-            randomLetter = getRandomLetter()
-            printLetter(randomLetter)
-            document.getElementById('pp_character').innerHTML = ""
-            document.getElementById('pp_character').style = `background: url(${images[i]}) no-repeat center center;
-	         background-size: cover;
-	         width: 100px;
-	         height: 100px;`
-            i++
          }
       }, 1000)
    }
@@ -45,8 +37,6 @@ export class stopwatch {
       clearInterval(this.interval)
       this.counter = this.intervalTime
       this.state = 'stop'
-      console.log('reloj reiniciado')
+      console.log('Reloj reiniciado')
    }
 }
-
-
