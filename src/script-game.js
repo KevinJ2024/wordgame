@@ -79,7 +79,7 @@ const printNames = (names) => {
 		img.classList.add("player_images")
 
 		const text_points = document.createElement('h3')
-		text_points.textContent = playersMap.get(name)
+		text_points.textContent = 0
 		text_points.id = i
 
 		div.appendChild(img)
@@ -176,11 +176,9 @@ const finishGame = () => {
 
 // Initialize players
 const createPlayers = (names) => {
-	const playersArray = localStorage.getItem('players');
-	const playersMap = new Map(JSON.parse(playersArray));
+	let points = 0
 	names.forEach(name => {
-		let points = playersMap.get(name)
-		players.set(name, points)
+		players.set(name, 0)
 	});
 
 	turn = names[0]

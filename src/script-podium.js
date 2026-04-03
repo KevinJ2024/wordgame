@@ -43,6 +43,13 @@ const nextLevel = () => {
     if (currentLevel == 3) {
         nextLevel = 1
     }
+    
+    const players = new Map
+    names.forEach(name => {
+        players.set(name, 0)
+    })
+
+    localStorage.setItem('players', JSON.stringify(Array.from(players)));
     localStorage.setItem("level", nextLevel)
     window.location.href = "./game.html"
 }
