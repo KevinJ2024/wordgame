@@ -1,5 +1,6 @@
 const btn_players = document.getElementById('btn-players')
-const menuSelect = document.getElementById('menu') // Seleccionamos el menú
+const menuSelect = document.getElementById('menu')
+const levelMenu = document.getElementById("levelMenu")
 
 // Función para actualizar los inputs basados en la opción seleccionada
 const actualizarPantalla = () => {
@@ -7,7 +8,6 @@ const actualizarPantalla = () => {
 	const main = document.getElementById('forms')
 	main.innerHTML = ""  // Limpiar los formularios antes de agregar nuevos
 	const selectOption = menuSelect.value
-	console.log("Jugadores seleccionados:", selectOption)
 
 	let numPlayers = 4  // Por defecto asume 4 jugadores
 	if (selectOption == 2) {
@@ -25,12 +25,12 @@ const actualizarPantalla = () => {
 // Función para crear los campos de texto para los jugadores
 const crearInputs = (i) => {
 	const label = document.createElement('label')
-	label.htmlFor = "name_players_" + i  
+	label.htmlFor = "name_players_" + i
 	label.textContent = "Ingresa el nombre del jugador " + (i + 1)
 
 	const input = document.createElement('input')
 	input.type = "text"
-	input.id = "name_players_" + i  
+	input.id = "name_players_" + i
 	input.placeholder = "Nombre..."
 
 	label.appendChild(input)
@@ -62,10 +62,10 @@ const obtenerNombres = () => {
 
 	// Si no es válido, mostrar alerta y detener
 	if (!valid || names.length !== inputs.length) {
-		alert("Por favor, corrige lo siguiente:\n\n" + 
-              "- Completa todos los campos solo con letras.\n" + 
-              "- La longitud máxima es de " + maxLength + " caracteres.\n" + 
-              "- Los nombres no pueden estar vacíos ni repetirse entre jugadores.")
+		alert("Por favor, corrige lo siguiente:\n\n" +
+			"- Completa todos los campos solo con letras.\n" +
+			"- La longitud máxima es de " + maxLength + " caracteres.\n" +
+			"- Los nombres no pueden estar vacíos ni repetirse entre jugadores.")
 		return false
 	}
 	return names
@@ -74,12 +74,18 @@ const obtenerNombres = () => {
 // Función principal para manejar el clic del botón JUGAR
 const iniciarPagina = () => {
 	btn_players.addEventListener('click', () => {
-		let names = obtenerNombres()  
+		let names = obtenerNombres()
+		const players = new Map
+		// reincia valores al presionar jugar
+		names.forEach(name => {
+			players.set(name, 0)
+		})
 
 		// Si los nombres son válidos, guardarlos en localStorage y redirigir
 		if (names) {
-			localStorage.setItem('playerNames', JSON.stringify(names)) 
-			window.location.href = './templates/game.html'  
+			localStorage.setItem('players', JSON.stringify(Array.from(players)));
+			localStorage.setItem("level", levelMenu.value)
+			window.location.href = './templates/game.html'
 		}
 	})
 }

@@ -1,10 +1,15 @@
 import { stopwatch } from "./class_stopwatch.js"
+import { themes } from "./ImagesDictionary.js"
 
-const gameOfWords = new stopwatch(60)
+const gameOfWords = new stopwatch(15)
 
+// Break Time Beetween Players
 const choiceTime = () => {
 	setTimeout(() => gameOfWords.play(), 3000)
 }
+
+const playersArray = localStorage.getItem('players');
+const playersMap = new Map(JSON.parse(playersArray));
 
 const btn_word = document.getElementById('btn-word')
 
@@ -12,160 +17,103 @@ const btn_word = document.getElementById('btn-word')
 const players = new Map()
 let turn = ""
 const usedWords = []
+const playedRounds = [];
 
 export const images = [
-    '../assets/images/characters/20.webp',
+	'../assets/images/characters/20.webp',
 	'../assets/images/characters/19.webp',
 	'../assets/images/characters/18.webp',
 	'../assets/images/characters/17.webp'
 ]
 localStorage.setItem('images', JSON.stringify(images))
 
-const names = JSON.parse(localStorage.getItem('playerNames')) || []
+// Functions For Control Game
+const getRandomRound = () => {
+	const currentArray = themes[currentLevel]["images"];
 
-// --- THEMES STRUCTURE ---
-export const themes = [
-	{
-		title: "Bullying",
-		image: "../assets/images/bullying.jpg",
-		keywords: ["acoso", "burlas", "insultos", "empatia", "respeto", "ciberacoso", "victima", "agresor", "apoyo", "denunciar"]
-	},
-	{
-		title: "Consumo de Sustancias",
-		image: "../assets/images/sustancias.jpg",
-		keywords: ["adiccion", "drogas", "alcohol", "prevencion", "salud", "riesgo", "rehabilitacion", "decisiones", "ayuda", "vicio"]
-	},
-	{
-		title: "Salud Mental",
-		image: "../assets/images/salud_mental.jpg",
-		keywords: ["ansiedad", "depresion", "estres", "terapia", "psicologo", "bienestar", "emociones", "tristeza", "hablar", "autocuidado"]
-	}
-];
+	const availableIndices = currentArray
+		.map((_, index) => index)
+		.filter(index => !playedRounds.includes(index));
 
-export let currentRound = 0;
+	if (availableIndices.length === 0) return null;
+
+	const randomRound = Math.floor(Math.random() * availableIndices.length);
+
+	console.log(availableIndices)
+	return availableIndices[randomRound];
+}
+
+const names = Array.from(playersMap.keys()) || []
+const currentLevel = localStorage.getItem("level")
+let randomRound = getRandomRound()
 
 // Print current theme and image
 export const printTheme = () => {
-	const letterContainer = document.getElementById('letter'); 
+	const letterContainer = document.getElementById('letter');
 	letterContainer.innerHTML = "";
-	const h1 = document.createElement('h1');
-	
-	h1.textContent = themes[currentRound].title;
-	letterContainer.appendChild(h1);
-    
-    const characterDiv = document.getElementById("pp_character");
-    characterDiv.style.background = `url(${themes[currentRound].image}) no-repeat center center`;
-    characterDiv.style.backgroundSize = "cover";
+	// const h1 = document.createElement('h1');
+	// h1.textContent = themes[currentLevel]["images"][randomRound].title;
+	// letterContainer.appendChild(h1);
+	console.log(themes[currentLevel]["levelName"])
+	console.log(themes[currentLevel]["images"][randomRound].title)
+
+	const characterDiv = document.getElementById("imageRound");
+	characterDiv.style.background = `url(${themes[currentLevel]["images"][randomRound].image}) no-repeat center center`;
+	characterDiv.style.backgroundSize = "cover";
 }
 
 // Print player profiles
 const printNames = (names) => {
 	let i = 0
+
 	names.forEach(name => {
 		const div = document.createElement('div')
 		div.classList.add('player')
-		
-        const text_name = document.createElement('h3')
+
+		const text_name = document.createElement('h3')
 		text_name.textContent = name
 		text_name.classList.add('players')
-		
-        const img = document.createElement('img')
+
+		const img = document.createElement('img')
 		img.src = images[i]
 		img.classList.add("player_images")
-		
-        const text_points = document.createElement('h3')
-		text_points.textContent = '0'
-		text_points.id = i 
+
+		const text_points = document.createElement('h3')
+		text_points.textContent = playersMap.get(name)
+		text_points.id = i
 
 		div.appendChild(img)
 		div.appendChild(text_name)
 		div.appendChild(text_points)
-		
+
 		document.getElementById('player-box').appendChild(div)
 		i++
 	})
-}
-
-// Initialize players
-const createPlayers = (names) => {
-	let points = 0
-	names.forEach(name => {
-		players.set(name, points)
-	});
-	console.log("Jugadores creados exitosamente")
-	
-    turn = names[0] 
-	printTheme(); 
-    
-	btn_word.addEventListener('click', () => game(players, names))
 }
 
 // Main game logic
 const game = (players, names) => {
 	event.preventDefault()
 	const inputWord = document.getElementById('insert_word')
-    const word = inputWord.value.toLowerCase().trim()
-	
-    inputWord.value = "" 
+	const word = inputWord.value.toLowerCase().trim()
+
+	inputWord.value = ""
 	const isValid = verifyJustWords(word)
-	
-    const currentPoints = players.get(turn)
-    const playerIndex = names.indexOf(turn)
 
-    if (isValid) {
-        const newPoints = addPoints(currentPoints)
-        players.set(turn, newPoints)
-        document.getElementById(playerIndex.toString()).innerHTML = `${newPoints}`
-    } else {
-        const newPoints = restPoints(currentPoints)
-        players.set(turn, newPoints)
-        document.getElementById(playerIndex.toString()).innerHTML = `${newPoints}`
-    }
-    
-	saveWord(word)
-}
+	const currentPoints = players.get(turn)
+	const playerIndex = names.indexOf(turn)
 
-// Points system
-const addPoints = (points) => {
-	return points + 10; 
-}
-const restPoints = (points) => {
-	return points - 2; 
-}
-
-// Handle turns and rounds
-export const changeTurn = () => { 
-	if (gameOfWords.counter == 0) {
-        
-        let currentPlayerIndex = names.indexOf(turn);
-        
-        if (currentPlayerIndex + 1 < names.length) {
-            turn = names[currentPlayerIndex + 1];
-            alert(`¡Tiempo! Es el turno de: ${turn}`);
-        } else {
-            currentRound++;
-            
-            if (currentRound < themes.length) {
-                turn = names[0]; 
-                usedWords.length = 0; 
-                printTheme();
-                alert(`¡Ronda Terminada! Empezamos la temática: ${themes[currentRound].title}. Turno de: ${turn}`);
-            } else {
-                finishGame();
-                return; 
-            }
-        }
-        
-		choiceTime()
-		gameOfWords.restart()
+	if (isValid) {
+		const newPoints = addPoints(currentPoints)
+		players.set(turn, newPoints)
+		document.getElementById(playerIndex.toString()).innerHTML = `${newPoints}`
+	} else {
+		const newPoints = restPoints(currentPoints)
+		players.set(turn, newPoints)
+		document.getElementById(playerIndex.toString()).innerHTML = `${newPoints}`
 	}
-}
 
-// Finish game and redirect
-const finishGame = () =>{
-	localStorage.setItem('players', JSON.stringify(Array.from(players)));
-	alert('¡Juego Terminado! Haz clic en Aceptar para ver los resultados.')
-	window.location.href = './podium.html'
+	saveWord(word)
 }
 
 // Keep track of used words
@@ -176,8 +124,8 @@ const saveWord = (word) => {
 
 // Verify if word is valid and belongs to the current theme
 const verifyJustWords = (word) => {
-    const roundKeywords = themes[currentRound].keywords;
-    
+	const roundKeywords = themes[currentLevel]["images"][randomRound].keywords;
+
 	if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/.test(word) || usedWords.includes(word) || !roundKeywords.includes(word)) {
 		return false
 	} else {
@@ -185,9 +133,65 @@ const verifyJustWords = (word) => {
 	}
 }
 
+// Points system
+const addPoints = (points) => {
+	return points + 10;
+}
+const restPoints = (points) => {
+	return points - 2;
+}
+
+// Handle turns and rounds
+export const changeTurn = () => {
+	if (gameOfWords.counter == 0) {
+
+		let currentPlayerIndex = names.indexOf(turn);
+
+		if (randomRound !== null && currentPlayerIndex + 1 < names.length) {
+			turn = names[currentPlayerIndex + 1];
+			// reset used words cause change the tematic
+			usedWords.length = 0;
+			// insert round in player rounds and update for a new round
+			playedRounds.push(randomRound)
+			randomRound = getRandomRound()
+
+			printTheme();
+			alert(`¡Tiempo Terminado! Turno de: ${turn}`);
+		} else {
+			finishGame();
+			return;
+		}
+
+		choiceTime()
+		gameOfWords.restart()
+	}
+}
+
+// Finish game and redirect
+const finishGame = () => {
+	localStorage.setItem('players', JSON.stringify(Array.from(players)));
+	alert('¡Nivel Terminado! Haz clic en Aceptar para ver los resultados.')
+	window.location.href = './podium.html'
+}
+
+// Initialize players
+const createPlayers = (names) => {
+	const playersArray = localStorage.getItem('players');
+	const playersMap = new Map(JSON.parse(playersArray));
+	names.forEach(name => {
+		let points = playersMap.get(name)
+		players.set(name, points)
+	});
+
+	turn = names[0]
+	printTheme();
+
+	btn_word.addEventListener('click', () => game(players, names))
+}
+
 // App init
 window.addEventListener('DOMContentLoaded', () => {
-    createPlayers(names);
-    printNames(names);
-    choiceTime();
+	createPlayers(names);
+	printNames(names);
+	choiceTime();
 });

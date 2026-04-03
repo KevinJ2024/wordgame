@@ -67,9 +67,4 @@ button{
     font-weight: 600;
     border: none;
     display: flex;
-    align-self: end;
-    justify-self: end;
-    position: absolute;
-    bottom: 10px;
-    left: 20px;
 }

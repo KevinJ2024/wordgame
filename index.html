@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,23 +8,31 @@
 	<link rel="stylesheet" href="styles/all.css">
 	<title>Inicio - Juego de Temáticas</title>
 </head>
+
 <body>
 	<main>
 		<section>
-			<div>
+			<div style="display: flex; flex-direction: column; gap: 10px;">
 				<select name="" id="menu" onchange="RefreshScreen()">
 					<option value="2">2 jugadores</option>
 					<option value="3">3 jugadores</option>
 					<option value="4">4 jugadores</option>
 				</select>
+				<select name="" id="levelMenu">
+					<option value="1">Nivel 1</option>
+					<option value="2">Nivel 2</option>
+					<option value="3">Nivel 3</option>
+				</select>
 			</div>
 			<div id="forms">
-                </div>
+			</div>
+			
 			<div>
 				<button id="btn-players">JUGAR</button>
 			</div>
 		</section>
 	</main>
-	<script type="module" src="./src/script.js" ></script>
+	<script type="module" src="./src/script.js"></script>
 </body>
+
 </html>
