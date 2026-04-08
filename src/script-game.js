@@ -39,7 +39,6 @@ const getRandomRound = () => {
 
 	const randomRound = Math.floor(Math.random() * availableIndices.length);
 
-	console.log(availableIndices)
 	return availableIndices[randomRound];
 }
 
@@ -49,13 +48,8 @@ let randomRound = getRandomRound()
 
 // Print current theme and image
 export const printTheme = () => {
-	const letterContainer = document.getElementById('letter');
-	letterContainer.innerHTML = "";
-	// const h1 = document.createElement('h1');
-	// h1.textContent = themes[currentLevel]["images"][randomRound].title;
-	// letterContainer.appendChild(h1);
-	console.log(themes[currentLevel]["levelName"])
-	console.log(themes[currentLevel]["images"][randomRound].title)
+	const levelTitle = document.getElementById("levelTitle");
+	levelTitle.textContent = themes[currentLevel].levelName;
 
 	const characterDiv = document.getElementById("imageRound");
 	characterDiv.style.background = `url(${themes[currentLevel]["images"][randomRound].image}) no-repeat center center`;
@@ -149,8 +143,6 @@ export const changeTurn = () => {
 
 		if (randomRound !== null && currentPlayerIndex + 1 < names.length) {
 			turn = names[currentPlayerIndex + 1];
-			// reset used words cause change the tematic
-			usedWords.length = 0;
 			// insert round in player rounds and update for a new round
 			playedRounds.push(randomRound)
 			randomRound = getRandomRound()
@@ -169,6 +161,8 @@ export const changeTurn = () => {
 
 // Finish game and redirect
 const finishGame = () => {
+	// reset used words cause change the tematic
+	usedWords.length = 0;
 	localStorage.setItem('players', JSON.stringify(Array.from(players)));
 	alert('¡Nivel Terminado! Haz clic en Aceptar para ver los resultados.')
 	window.location.href = './podium.html'
@@ -188,12 +182,12 @@ const createPlayers = (names) => {
 }
 
 const restartStats = () => {
-    const players = new Map
-    names.forEach(name => {
-        players.set(name, 0)
-    })
+	const players = new Map
+	names.forEach(name => {
+		players.set(name, 0)
+	})
 
-    localStorage.setItem('players', JSON.stringify(Array.from(players)));
+	localStorage.setItem('players', JSON.stringify(Array.from(players)));
 }
 
 // App init
