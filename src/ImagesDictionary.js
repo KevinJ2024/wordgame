@@ -123,7 +123,7 @@ export const themes = {
             },
             {
                 title: "SaludMental7",
-                image: "../assets/images/SaludMental7.jpg",
+                image: "../assets/images/SaludMental7.png",
                 keywords: ["ansiedad", "depresion", "estres", "terapia", "psicologo", "bienestar", "emociones", "tristeza", "hablar", "autocuidado", "resilencia"]
             },
             {
