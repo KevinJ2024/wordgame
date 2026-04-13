@@ -1,7 +1,7 @@
 import { stopwatch } from "./class_stopwatch.js"
 import { themes } from "./ImagesDictionary.js"
 
-const gameOfWords = new stopwatch(15)
+const gameOfWords = new stopwatch(60)
 
 // Break Time Beetween Players
 const choiceTime = () => {
@@ -54,6 +54,9 @@ export const printTheme = () => {
 	const characterDiv = document.getElementById("imageRound");
 	characterDiv.style.background = `url(${themes[currentLevel]["images"][randomRound].image}) no-repeat center center`;
 	characterDiv.style.backgroundSize = "cover";
+
+	const contextDiv = document.getElementById("context");
+	contextDiv.textContent = themes[currentLevel]["images"][randomRound].context;
 }
 
 // Print player profiles
