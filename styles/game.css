@@ -1,9 +1,9 @@
 :root {
 	--Background_pricipal: #101720;
-	--background_objects_1: #072084;
-	--background_objects_2: #f95b1a;
+	--background_objects_1: #ffffff;
+	--background_objects_2: #6fc7c2;
 	--background_objects_3: #ffd6c0;
-	--color_fonts: #faebd7;
+	--color_fonts: #000000;
 }
 
 main {
@@ -94,7 +94,8 @@ h3.players {
 	flex-direction: column;
 	align-items: center;
 	position: relative;
-	top: 25vh;
+	top: 10vh;
+	gap: 5px;
 	
 }
 
@@ -198,4 +199,23 @@ button {
 	font-weight: 600;
 	color: var(--color_fonts);
 	text-shadow: 2px 2px 4px var(--background_objects_1);
+}
+
+#ListWords{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	border: var(--background_objects_2) solid 2px;
+	height: fit-content;
+	max-width: 50vw;
+	max-height: 40vh;
+	overflow: auto;
+	text-align: center;
+	font-weight: bolder;
+}
+
+#listWords::-webkit-scrollbar {
+	width: 10px;
 }

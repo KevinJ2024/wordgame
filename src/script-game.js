@@ -1,7 +1,7 @@
 import { stopwatch } from "./class_stopwatch.js"
 import { themes } from "./ImagesDictionary.js"
 
-const gameOfWords = new stopwatch(60)
+const gameOfWords = new stopwatch(30)
 
 // Break Time Beetween Players
 const choiceTime = () => {
@@ -57,6 +57,33 @@ export const printTheme = () => {
 
 	const contextDiv = document.getElementById("context");
 	contextDiv.textContent = themes[currentLevel]["images"][randomRound].context;
+
+	const listWordsDiv = document.getElementById("ListWords");
+	listWordsDiv.innerHTML = "";
+
+	const realKeywords = themes[currentLevel]["images"][randomRound].keywords;
+	const falseKeywords = themes[currentLevel]["images"][randomRound].keywordsfalse || [];
+
+	const allWords = [...realKeywords, ...falseKeywords];
+
+	for (let i = allWords.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[allWords[i], allWords[j]] = [allWords[j], allWords[i]];
+	}
+
+	allWords.forEach(keyword => {
+		// if (usedWords.includes(keyword)) return;
+		const wordItem = document.createElement("div");
+		wordItem.textContent = keyword;
+		wordItem.classList.add("keyword-item");
+
+		wordItem.style.border = "2px solid #f5f5f5";
+		wordItem.style.cursor = "pointer";
+
+		wordItem.addEventListener("click", () => game(players, names, wordItem));
+
+		listWordsDiv.appendChild(wordItem);
+	});
 }
 
 // Print player profiles
@@ -89,14 +116,12 @@ const printNames = (names) => {
 }
 
 // Main game logic
-const game = (players, names) => {
+const game = (players, names, word) => {
 	event.preventDefault()
-	const inputWord = document.getElementById('insert_word')
-	const word = inputWord.value.toLowerCase().trim()
+	const text = word.textContent
+	const isValid = verifyJustWords(text)
 
-	inputWord.value = ""
-	const isValid = verifyJustWords(word)
-
+	word.style.display = "none"
 	const currentPoints = players.get(turn)
 	const playerIndex = names.indexOf(turn)
 
@@ -110,7 +135,7 @@ const game = (players, names) => {
 		document.getElementById(playerIndex.toString()).innerHTML = `${newPoints}`
 	}
 
-	saveWord(word)
+	saveWord(text)
 }
 
 // Keep track of used words
@@ -122,8 +147,9 @@ const saveWord = (word) => {
 // Verify if word is valid and belongs to the current theme
 const verifyJustWords = (word) => {
 	const roundKeywords = themes[currentLevel]["images"][randomRound].keywords;
+	const falseKeywords = themes[currentLevel]["images"][randomRound].keywordsfalse || [];
 
-	if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/.test(word) || usedWords.includes(word) || !roundKeywords.includes(word)) {
+	if (/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/.test(word) || usedWords.includes(word) || falseKeywords.includes(word) || !roundKeywords.includes(word)) {
 		return false
 	} else {
 		return true
@@ -181,7 +207,7 @@ const createPlayers = (names) => {
 	turn = names[0]
 	printTheme();
 
-	btn_word.addEventListener('click', () => game(players, names))
+	// btn_word.addEventListener('click', () => game(players, names))
 }
 
 const restartStats = () => {
