@@ -2,10 +2,16 @@ import { stopwatch } from "./class_stopwatch.js"
 import { themes } from "./ImagesDictionary.js"
 
 const gameOfWords = new stopwatch(30)
+let canPlay = false
 
 // Break Time Beetween Players
 const choiceTime = () => {
-	setTimeout(() => gameOfWords.play(), 3000)
+	canPlay = false
+	setTimeout(() => {
+		canPlay = true
+		gameOfWords.play()
+	}
+		, 3000)
 }
 
 const playersArray = localStorage.getItem('players');
@@ -77,8 +83,10 @@ export const printTheme = () => {
 		wordItem.textContent = keyword;
 		wordItem.classList.add("keyword-item");
 
-		wordItem.style.border = "2px solid #f5f5f5";
+		wordItem.style.border = "2px solid #101720";
 		wordItem.style.cursor = "pointer";
+		wordItem.style.transition = "opacity 1s ease-in-out";
+		wordItem.style.minWidth = "100px";
 
 		wordItem.addEventListener("click", () => game(players, names, wordItem));
 
@@ -118,10 +126,15 @@ const printNames = (names) => {
 // Main game logic
 const game = (players, names, word) => {
 	event.preventDefault()
+	if (canPlay === false) return
 	const text = word.textContent
 	const isValid = verifyJustWords(text)
 
-	word.style.display = "none"
+	word.style.opacity = "0"
+	setTimeout(() => {
+		word.style.display = "none"
+	}, 1000)
+
 	const currentPoints = players.get(turn)
 	const playerIndex = names.indexOf(turn)
 
@@ -135,7 +148,15 @@ const game = (players, names, word) => {
 		document.getElementById(playerIndex.toString()).innerHTML = `${newPoints}`
 	}
 
-	saveWord(text)
+	canPlay = false
+	const wordList = document.getElementById('ListWords')
+	// wordList.style.opacity = "0.4"
+
+	setTimeout(() => {
+		// wordList.style.opacity = "1"
+		canPlay = true
+		saveWord(text)
+	}, 1000)
 }
 
 // Keep track of used words

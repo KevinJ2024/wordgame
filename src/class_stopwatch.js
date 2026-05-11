@@ -12,16 +12,17 @@ export class stopwatch {
       if (this.state === 'play') return
       this.state = 'play'
       
-      // const insertWord = document.getElementById('insert_word')
-      // insertWord.value = ""
-      // insertWord.style.visibility = 'visible'
+      const wordList = document.getElementById('ListWords')
+      wordList.style.visibility = 'visible'
+      wordList.style.opacity = '1'
       
+
       this.interval = setInterval(() => {
          this.counter--
          document.getElementById('time').innerHTML = this.counter
          
          if (this.counter === 0) {
-            // insertWord.style.visibility = 'hidden'
+            wordList.style.opacity = "0.4"
             clearInterval(this.interval)
             this.state = 'stop'
             document.getElementById('time').innerHTML = "Tiempo"
